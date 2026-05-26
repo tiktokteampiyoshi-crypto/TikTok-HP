@@ -797,7 +797,7 @@ button { font-family: inherit; cursor: pointer; }
 .marquee-track {
   display: flex;
   gap: 3rem;
-  animation: scroll 30s linear infinite;
+  animation: scroll 15s linear infinite;
   white-space: nowrap;
   font-family: var(--font-display);
   font-weight: 800;
@@ -2257,8 +2257,6 @@ footer {
     <div class="liver-tabs">
       <button class="liver-tab active" data-filter="all" onclick="filterLivers(this, 'all')">All</button>
       <button class="liver-tab" data-filter="Pickup" onclick="filterLivers(this, 'Pickup')">Pickup</button>
-      <button class="liver-tab" data-filter="既存" onclick="filterLivers(this, '既存')">既存ライバー</button>
-      <button class="liver-tab" data-filter="新人" onclick="filterLivers(this, '新人')">新人ライバー</button>
     </div>
   </div>
   <div class="liver-grid" id="liver-grid">
