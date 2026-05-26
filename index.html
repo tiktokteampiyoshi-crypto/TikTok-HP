@@ -3037,7 +3037,7 @@ function renderHeroLivers() {
     var badgeHtml = l.badge
       ? '<span class="hero-card-tag">' + escapeHtml(l.badge.toUpperCase()) + '</span>'
       : '';
-    var handle = l.handle + (l.followers ? ' · ' + l.followers : '');
+    var handle = l.handle;
     return '<div class="hero-card ' + placement + '" onclick="openLiver(\'' + escapeAttr(l.id) + '\')" style="cursor: pointer;">' +
              '<div class="' + imgClass + '" style="' + imgStyle + '"></div>' +
              badgeHtml +
@@ -3072,12 +3072,6 @@ function renderLiverGrid() {
       : '';
     var thumbClass = l.thumbnail ? '' : 'placeholder-' + ((idx % 4) + 1);
     var stats = '';
-    if (l.followers || l.totalViews) {
-      stats = '<div class="liver-card-stats">' +
-              (l.followers ? '♥ ' + escapeHtml(l.followers) + '<br>' : '') +
-              (l.totalViews ? '▶ ' + escapeHtml(l.totalViews) : '') +
-              '</div>';
-    }
     var badgeHtml = l.badge
       ? '<span class="liver-card-tag ' + badgeClass + '">' + escapeHtml(l.badge) + '</span>'
       : '';
@@ -3162,9 +3156,6 @@ function renderLiver(liver) {
   // 統計
   var statsRow = document.getElementById('liver-profile-stats-row');
   var statsHtml = '';
-  if (liver.followers) {
-    statsHtml += '<div><div class="profile-stat-label">Followers</div><div class="profile-stat-val">' + escapeHtml(liver.followers) + '</div></div>';
-  }
   if (liver.totalViews) {
     statsHtml += '<div><div class="profile-stat-label">Total Views</div><div class="profile-stat-val">' + escapeHtml(liver.totalViews) + '</div></div>';
   }
