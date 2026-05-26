@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tiktokkoshiki.tiktok-team-piyoshi.workers.dev/sitemap.xml
