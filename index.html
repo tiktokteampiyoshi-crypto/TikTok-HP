@@ -2777,6 +2777,13 @@ window.addEventListener('DOMContentLoaded', function() {
 // ============== Event Ranking Loader ==============
 const RANKING_API_URL = 'https://gas-cache.tiktok-ranking.workers.dev';
 
+// Google Drive画像をWorker経由にして高速化
+function proxyImg(url) {
+  if (!url) return url;
+  if (url.indexOf('drive.google.com') === -1 && url.indexOf('googleusercontent.com') === -1) return url;
+  return RANKING_API_URL + '/img?url=' + encodeURIComponent(url);
+}
+
 // Newsキャッシュ(記事クリック時に詳細表示で使う)
 var NEWS_CACHE = [];
 
@@ -2870,7 +2877,7 @@ function loadNewsList() {
       container.innerHTML = news.map(function(item, idx) {
         var tagClass = getTagClass(item.category);
         var thumbStyle = item.thumbnail
-          ? 'style="background-image: url(\'' + escapeAttr(item.thumbnail) + '\');"'
+          ? 'style="background-image: url(\'' + escapeAttr(proxyImg(item.thumbnail)) + '\');"'
           : '';
         var thumbClass = item.thumbnail ? 'news-thumb' : 'news-thumb p' + ((idx % 4) + 1);
         return '<div class="news-card" onclick="openArticle(\'' + escapeAttr(item.id) + '\')">' +
@@ -2950,7 +2957,7 @@ function renderArticle(article) {
   var imgWrap = document.getElementById('article-image-wrap');
   if (article.heroImage) {
     imgWrap.style.display = '';
-    document.getElementById('article-hero-image').style.backgroundImage = 'url(\'' + article.heroImage + '\')';
+    document.getElementById('article-hero-image').style.backgroundImage = 'url(\'' + proxyImg(article.heroImage) + '\')';
   } else {
     imgWrap.style.display = 'none';
   }
@@ -3031,7 +3038,7 @@ function renderHeroLivers() {
   visual.innerHTML = heroes.map(function(l, idx) {
     var placement = placements[idx];
     var imgStyle = l.thumbnail
-      ? 'background-image: url(\'' + escapeAttr(l.thumbnail) + '\'); background-size: cover; background-position: center top;'
+      ? 'background-image: url(\'' + escapeAttr(proxyImg(l.thumbnail)) + '\'); background-size: cover; background-position: center top;'
       : '';
     var imgClass = l.thumbnail ? 'hero-card-img' : 'hero-card-img ' + defaultPlaceholders[idx];
     var badgeHtml = l.badge
@@ -3068,7 +3075,7 @@ function renderLiverGrid() {
   container.innerHTML = filtered.map(function(l, idx) {
     var badgeClass = getBadgeClass(l.badge);
     var thumbStyle = l.thumbnail
-      ? 'style="background-image: url(\'' + escapeAttr(l.thumbnail) + '\');"'
+      ? 'style="background-image: url(\'' + escapeAttr(proxyImg(l.thumbnail)) + '\');"'
       : '';
     var thumbClass = l.thumbnail ? '' : 'placeholder-' + ((idx % 4) + 1);
     var stats = '';
@@ -3137,9 +3144,9 @@ function renderLiver(liver) {
   // 写真
   var photoEl = document.getElementById('liver-profile-photo');
   if (liver.profileImage) {
-    photoEl.style.backgroundImage = 'url(\'' + liver.profileImage + '\')';
+    photoEl.style.backgroundImage = 'url(\'' + proxyImg(liver.profileImage) + '\')';
   } else if (liver.thumbnail) {
-    photoEl.style.backgroundImage = 'url(\'' + liver.thumbnail + '\')';
+    photoEl.style.backgroundImage = 'url(\'' + proxyImg(liver.thumbnail) + '\')';
   } else {
     photoEl.style.backgroundImage = 'linear-gradient(135deg, var(--pink-soft), var(--lavender-soft))';
   }
